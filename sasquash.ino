@@ -218,11 +218,15 @@ void setup() {
     runAp();
   } else {
     for (uint8_t a = 0; a < 2; a++) {
-      AlarmIds[a] = Alarm.alarmRepeat(loc2gm(initialTimes[a]),almFunc[a]);
+      AlarmIds[a] = Alarm.alarmRepeat(loc2gm(timedata.almtime[a]),almFunc[a]);
       Serial.print(alarmNames[a]);
       Serial.print(" alarm id: ");
       Serial.println(AlarmIds[a]);
-      Alarm.disable(AlarmIds[a]); // disable default
+      if(timedata.enable[a]) {
+	Alarm.enable(AlarmIds[a]); // enable
+      } else {
+	Alarm.disable(AlarmIds[a]); // disable
+      }
     }
   }
   Serial.println(" Alarm Setup Done.");
@@ -624,7 +628,7 @@ String genTimeHTML(){
     ptr += "> Enable?";
     ptr +="<br />\n";
   }
-  ptr+="<br><br><hr><br><br>";
+  //ptr+="<br><br><hr><br><br>";
   ptr+=tz_form;
   ptr+="	      <input type=\"submit\" value=\"Save\">\n";
   ptr+="	      </form>\n";
@@ -828,7 +832,7 @@ void handle_timedataForm() {
       }
     }
     ptr +="<br> Saving<br>\n";
-    File f = SPIFFS.open("/timedata.dat", "w");
+    File f = SPIFFS.open("/time.dat", "w");
     if(f && f.write((byte*)&timedata,sizeof(timedata)) ) {
       f.close();
       ptr +="<br> Success<br>\n";
