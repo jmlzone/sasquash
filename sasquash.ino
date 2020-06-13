@@ -502,7 +502,7 @@ String genAPRootHTML(){
     ptr+="      \n";
     ptr+=control_html;
     if(on) {
-      ptr+="checked=\checked\"";
+      ptr+="checked=\"checked\"";
     }
     ptr+=control_html1;
     ptr+=genModeSelect();
@@ -545,7 +545,7 @@ String genWifiHTML(){
   ptr+="      \n";
   ptr+=control_html;
   if(on) {
-    ptr+="checked=\checked\"";
+    ptr+="checked=\"checked\"";
   }
   ptr+=control_html1;
   ptr+=genModeSelect();
@@ -574,7 +574,7 @@ String genRootHTML(){
   ptr+="      \n";
   ptr+=control_html;
   if(on) {
-    ptr+="checked=\checked\"";
+    ptr+="checked=\"checked\"";
   }
   ptr+=control_html1;
   ptr+=genModeSelect();
@@ -649,7 +649,7 @@ String genLedHTML(){
   ptr+="      \n";
   ptr+=control_html;
   if(on) {
-    ptr+="checked=\checked\"";
+    ptr+="checked=\"checked\"";
   }
   ptr+=control_html1;
   ptr+=genModeSelect();

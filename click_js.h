@@ -46,7 +46,7 @@ String style_js = "        <style>\n\
             }\n\
             .slider:before {\n\
                 position: relative;\n\
-                content: "";\n\
+                content: \"\";\n\
                 border-radius: 50%;\n\
                 height: 16px;\n\
                 width: 16px;\n\
