@@ -24,7 +24,7 @@
 #define MYTZ "EST5EDT"
 
 #ifndef APSSID
-#define APSSID "Sasquash"
+#define APSSID "Sasquatch"
 #define APPSK  "iamayeti"
 #endif
 const char *apssid = APSSID;
@@ -106,8 +106,8 @@ void setup() {
   // set default incase no file loaded
   // timedata aka time.dat
   timedata.dst=0;
-  strncpy(timedata.tz,"EST5EDT",7);
-  timedata.tz[7] = 0;
+  strncpy(timedata.tz,"EST5",4);
+  timedata.tz[4] = 0;
   timedata.almtime[0] = initialTimes[0];
   timedata.almtime[1] = initialTimes[1];
   timedata.enable[0] = false;
@@ -133,7 +133,7 @@ void setup() {
   if(!f) { // file does not exist
     netdata.ssid[0]=0;
     netdata.psk[0]=0;
-    strncpy(netdata.hostname,"sasquash",31);
+    strncpy(netdata.hostname,"sasquatch",31);
     netdata.hostname[31] = 0;
     Serial.println("No network file, will be an AP");
   } else {
@@ -153,7 +153,8 @@ void setup() {
     }
     strip.setPixelColor(0, 100,0,0); // switch to green after scan
     strip.show();
-    setenv("TZ", timedata.tz, timedata.dst);
+    setenv("TZ", timedata.tz, 1);
+    //setenv("TZ","EDT4",1);
     tzset();
   } // else no wifi data
   // Set WiFi to station mode and disconnect from an AP if it was previously connected
@@ -210,6 +211,13 @@ void setup() {
       strip.show();
       delay(1000); // wait a second
     }
+    gmtt = gmtime(&seconds);
+    //ltime = mktime(gmtt);
+    ltime = mktime(timeinfo);
+    diff_time = seconds - ltime;
+    Serial.print("GMT time offset is seconds-ltime(gmt): ");
+    Serial.print(diff_time);
+    Serial.println(" Seconds");
   }
   if(r==-1) {
     //strip.clear();
@@ -729,11 +737,11 @@ void handle_leddataForm() {
   } else {
     String ptr = "<!DOCTYPE html> <html>\n";
     ptr +="<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";
-    ptr +="<title>Sasquash Time Control</title>\n";
+    ptr +="<title>Sasquatch Time Control</title>\n";
     ptr+=style_js;
     ptr +="</head>\n";
     ptr +="<body>\n";
-    ptr +="<h1>Sasquash LED Setting</h1>\n";
+    ptr +="<h1>Sasquatch LED Setting</h1>\n";
     ptr +="<h3>";
     ptr +=asctime(timeinfo);
     ptr +=" ";
@@ -778,11 +786,11 @@ void handle_timedataForm() {
   } else {
     String ptr = "<!DOCTYPE html> <html>\n";
     ptr +="<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";
-    ptr +="<title>Sasquash Time Control</title>\n";
+    ptr +="<title>Sasquatch Time Control</title>\n";
     ptr+=style_js;
     ptr +="</head>\n";
     ptr +="<body>\n";
-    ptr +="<h1>Sasquash Time Control Setting</h1>\n";
+    ptr +="<h1>Sasquatch Time Control Setting</h1>\n";
     ptr +="<h3>";
     ptr +=asctime(timeinfo);
     ptr +=" ";
@@ -805,7 +813,7 @@ void handle_timedataForm() {
 	  ptr += "Update timer, ";
 	  Alarm.write(AlarmIds[t],newt);
         }
-	timedata.almtime[t] = newt;
+	timedata.almtime[t] = gm2loc(newt);
         if(server.argName(i+1).substring(0,6).equals("enable")) {
           e = true;
           ptr += "Enabled, ";

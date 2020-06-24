@@ -139,13 +139,12 @@ String control_html3 = " value=1 onchange=clickColor(true)>\n\
 String tz_form = "		    <div class=\"input-group\" id=\"dtDIV\">\n\
 	      <label for=\"tz\">Timezone<br></label>\n\
 	      <select id=\"tz\" name=\"tz\">\n\
-		<option value=\"EST5EDT\">Eastern</option>\n\
+    <option value=\"EDT4\">Eastern Daylight</option>\n\
+    <option value=\"EST5\">Eastern Standard</option>\n\
 		<option value=\"CST6CDT\">Central</option>\n\
 		<option value=\"MST7MDT\">Mountain</option>\n\
 		<option value=\"PST8PDT\">Pacific</option>\n\
 	      </select>\n\
-  	      <label for=\"dst\">dst</label>\n\
-	      <input type=checkbox id=\"dst\" name=\"dst\">\n\
   	    </div>\n";
   
 String footer_links = "	    <a href =\"/\">Color setting and control</a><br>\n\
